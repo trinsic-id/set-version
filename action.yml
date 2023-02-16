@@ -8,6 +8,10 @@ inputs:
   overrideVersion:
     description: 'the version to force instead - overrides the latest version'
     required: false
+  overrideRepository:
+    description: 'the repository whose latest version is desired'
+    required: false
+    default: ''
 outputs:
   packageVersion:
     description: "the package version"
@@ -21,7 +25,7 @@ runs:
     - id: fetchversion
       run: |
         ${{ github.action_path }}/Set-Version.ps1 `
-          -Repo "${{ github.repository }}" `
+          -Repo "${{ inputs.overrideRepository || github.repository }}" `
           -GithubToken "${{ inputs.githubToken }}" `
           -ManualVersion "${{ inputs.overrideVersion }}"
       shell: pwsh
